@@ -24,9 +24,8 @@ const CATEGORIES = [
   { name: 'Operations', icon: '🔧', color: 'bg-yellow-50 border-yellow-100' },
 ];
 
-export default function HomePage() {
-  const featuredJobs = getFeaturedJobs();
-  const stats = getStats();
+export default async function HomePage() {
+  const [featuredJobs, stats] = await Promise.all([getFeaturedJobs(), getStats()]);
 
   return (
     <main>

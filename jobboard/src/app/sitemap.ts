@@ -3,8 +3,8 @@ import { getAllJobs } from '@/lib/jobs';
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const jobs = getAllJobs();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const jobs = await getAllJobs();
 
   const jobEntries: MetadataRoute.Sitemap = jobs.map((job) => ({
     url: `${BASE}/jobs/${job.slug}`,

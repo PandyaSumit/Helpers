@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { getAllJobs, filterJobs, getCategories } from '@/lib/jobs';
+import { getFilteredJobs, getCategories } from '@/lib/jobs';
 import JobCard from '@/components/JobCard';
 import JobFilters from '@/components/JobFilters';
 import { JobFilters as JobFiltersType } from '@/types';
@@ -10,45 +10,37 @@ export const metadata: Metadata = {
   description: 'Find curated engineering, design, data, and product jobs from top companies. Filter by role, location, type, and experience level.',
 };
 
-interface Props {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
+type SearchParams = { [key: string]: string | string[] | undefined };
 
 function getString(val: string | string[] | undefined): string {
   if (Array.isArray(val)) return val[0] ?? '';
   return val ?? '';
 }
 
-export default async function JobsPage({ searchParams }: Props) {
-  const params = await searchParams;
-
+async function JobPageContent({ searchParams }: { searchParams: SearchParams }) {
   const filters: Partial<JobFiltersType> = {
-    search: getString(params.search),
-    category: getString(params.category),
-    jobType: getString(params.jobType),
-    experienceLevel: getString(params.experienceLevel),
-    locationType: getString(params.locationType),
+    search: getString(searchParams.search),
+    category: getString(searchParams.category),
+    jobType: getString(searchParams.jobType),
+    experienceLevel: getString(searchParams.experienceLevel),
+    locationType: getString(searchParams.locationType),
   };
 
-  const allJobs = getAllJobs();
-  const filteredJobs = filterJobs(allJobs, filters);
-  const categories = getCategories();
+  const [filteredJobs, categories] = await Promise.all([
+    getFilteredJobs(filters),
+    getCategories(),
+  ]);
 
   const hasActiveFilter = Object.values(filters).some((v) => v && v !== 'all');
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-900">Browse Jobs</h1>
-        <p className="mt-2 text-sm text-neutral-500">
-          {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'} found
-          {hasActiveFilter ? ' matching your filters' : ''}
-        </p>
-      </div>
+    <>
+      <p className="mb-4 text-sm text-neutral-500">
+        {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'} found
+        {hasActiveFilter ? ' matching your filters' : ''}
+      </p>
 
-      <Suspense>
-        <JobFilters categories={categories} />
-      </Suspense>
+      <JobFilters categories={categories} />
 
       <div className="mt-8">
         {filteredJobs.length > 0 ? (
@@ -64,6 +56,41 @@ export default async function JobsPage({ searchParams }: Props) {
           </div>
         )}
       </div>
+    </>
+  );
+}
+
+const JobPageSkeleton = () => (
+  <div className="animate-pulse space-y-6">
+    <div className="h-5 w-32 rounded bg-neutral-200" />
+    <div className="flex gap-2">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="h-10 w-32 rounded-lg bg-neutral-100" />
+      ))}
+    </div>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="h-52 rounded-2xl bg-neutral-100" />
+      ))}
+    </div>
+  </div>
+);
+
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function JobsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  return (
+    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-neutral-900">Browse Jobs</h1>
+      </div>
+
+      <Suspense fallback={<JobPageSkeleton />}>
+        <JobPageContent searchParams={params} />
+      </Suspense>
     </main>
   );
 }

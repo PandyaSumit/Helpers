@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
-  const jobs = getAllJobs();
+export default async function AdminPage() {
+  const jobs = await getAllJobs();
   return <AdminPanel initialJobs={jobs} />;
 }

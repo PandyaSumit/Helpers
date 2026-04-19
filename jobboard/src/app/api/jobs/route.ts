@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllJobs, saveJob, generateSlug } from '@/lib/jobs';
+import { getAllJobs, createJob, generateSlug } from '@/lib/jobs';
 import { Job } from '@/types';
 
 export async function GET() {
-  const jobs = getAllJobs();
+  const jobs = await getAllJobs();
   return NextResponse.json(jobs);
 }
 
@@ -11,11 +11,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const id = Date.now().toString();
     const slug = generateSlug(body.title, body.company);
 
-    const job: Job = {
-      id,
+    const jobData: Omit<Job, 'id'> = {
       slug,
       title: body.title,
       company: body.company,
@@ -38,9 +36,10 @@ export async function POST(request: NextRequest) {
       views: 0,
     };
 
-    saveJob(job);
+    const job = await createJob(jobData);
     return NextResponse.json(job, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
