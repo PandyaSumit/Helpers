@@ -170,7 +170,7 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
   const labelCls = 'block mb-1 text-xs font-semibold text-neutral-600 uppercase tracking-wide';
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <div>
       {/* Toast */}
       {toast && (
         <div
@@ -187,8 +187,8 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
 
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Admin Panel</h1>
-          <p className="mt-1 text-sm text-neutral-500">{jobs.length} job listings</p>
+          <h1 className="text-2xl font-bold text-neutral-900">Job Listings</h1>
+          <p className="mt-0.5 text-sm text-neutral-500">{jobs.length} {jobs.length === 1 ? 'listing' : 'listings'}</p>
         </div>
         <button
           onClick={openCreate}
