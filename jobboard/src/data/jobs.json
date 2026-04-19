@@ -1,0 +1,315 @@
+[
+  {
+    "id": "1",
+    "slug": "senior-frontend-engineer-google",
+    "title": "Senior Frontend Engineer",
+    "company": "Google",
+    "companyLogo": "https://logo.clearbit.com/google.com",
+    "location": "Mountain View, CA",
+    "locationType": "hybrid",
+    "jobType": "full-time",
+    "experienceLevel": "senior",
+    "salary": { "min": 160000, "max": 220000, "currency": "USD", "period": "year" },
+    "description": "Join Google's core search team to build the next generation of web experiences. You'll work on high-impact products used by billions of people worldwide, collaborating with world-class engineers and designers.",
+    "responsibilities": [
+      "Lead frontend architecture decisions for large-scale web applications",
+      "Collaborate with product managers and designers to deliver exceptional user experiences",
+      "Mentor junior engineers and conduct thorough code reviews",
+      "Drive performance optimizations across Google's web products",
+      "Contribute to open-source projects and internal tooling"
+    ],
+    "requirements": [
+      "5+ years of experience in frontend development",
+      "Deep expertise in React, TypeScript, and modern CSS",
+      "Experience with large-scale distributed systems",
+      "Strong understanding of web performance and accessibility",
+      "Bachelor's degree in Computer Science or equivalent experience"
+    ],
+    "niceToHave": [
+      "Experience with WebAssembly or Web Workers",
+      "Contributions to open-source projects",
+      "Knowledge of GraphQL and Apollo"
+    ],
+    "tags": ["React", "TypeScript", "CSS", "Performance", "Accessibility"],
+    "category": "Engineering",
+    "applicationUrl": "https://careers.google.com",
+    "sourceUrl": "https://careers.google.com",
+    "featured": true,
+    "postedAt": "2026-04-15T09:00:00Z",
+    "expiresAt": "2026-05-15T09:00:00Z",
+    "views": 1243
+  },
+  {
+    "id": "2",
+    "slug": "product-designer-notion",
+    "title": "Product Designer",
+    "company": "Notion",
+    "companyLogo": "https://logo.clearbit.com/notion.so",
+    "location": "San Francisco, CA",
+    "locationType": "remote",
+    "jobType": "full-time",
+    "experienceLevel": "mid",
+    "salary": { "min": 130000, "max": 170000, "currency": "USD", "period": "year" },
+    "description": "Notion is looking for a talented Product Designer to help shape the future of productivity software. You'll own end-to-end design for key product areas, working closely with engineering and product teams.",
+    "responsibilities": [
+      "Own design for multiple product areas from concept to shipping",
+      "Conduct user research and usability testing",
+      "Create and maintain design systems and component libraries",
+      "Collaborate with cross-functional teams to align on product strategy",
+      "Deliver high-fidelity prototypes and design specs"
+    ],
+    "requirements": [
+      "3+ years of product design experience",
+      "Proficiency in Figma and prototyping tools",
+      "Strong portfolio demonstrating end-to-end design process",
+      "Experience designing for B2B SaaS products",
+      "Excellent communication and storytelling skills"
+    ],
+    "niceToHave": [
+      "Experience with design systems at scale",
+      "Basic understanding of HTML/CSS",
+      "Experience with motion design"
+    ],
+    "tags": ["Figma", "UX", "Design Systems", "Prototyping", "SaaS"],
+    "category": "Design",
+    "applicationUrl": "https://notion.so/careers",
+    "sourceUrl": "https://notion.so/careers",
+    "featured": true,
+    "postedAt": "2026-04-16T10:00:00Z",
+    "views": 876
+  },
+  {
+    "id": "3",
+    "slug": "backend-engineer-stripe",
+    "title": "Backend Engineer",
+    "company": "Stripe",
+    "companyLogo": "https://logo.clearbit.com/stripe.com",
+    "location": "Remote",
+    "locationType": "remote",
+    "jobType": "full-time",
+    "experienceLevel": "mid",
+    "salary": { "min": 140000, "max": 190000, "currency": "USD", "period": "year" },
+    "description": "Stripe is hiring backend engineers to help build the financial infrastructure of the internet. You'll work on core payment systems that process billions of dollars in transactions.",
+    "responsibilities": [
+      "Build and maintain scalable backend services in Ruby and Go",
+      "Design and implement APIs used by millions of developers",
+      "Improve system reliability, performance, and observability",
+      "Collaborate with product teams to ship new features",
+      "Participate in on-call rotations to support production systems"
+    ],
+    "requirements": [
+      "3+ years of backend engineering experience",
+      "Strong proficiency in at least one backend language (Ruby, Go, Java)",
+      "Experience with distributed systems and microservices",
+      "Understanding of databases, caching, and message queues",
+      "Experience with cloud infrastructure (AWS, GCP)"
+    ],
+    "niceToHave": [
+      "Experience in fintech or payments",
+      "Knowledge of PCI compliance",
+      "Contributions to developer tools"
+    ],
+    "tags": ["Ruby", "Go", "APIs", "Distributed Systems", "Payments"],
+    "category": "Engineering",
+    "applicationUrl": "https://stripe.com/jobs",
+    "sourceUrl": "https://stripe.com/jobs",
+    "featured": false,
+    "postedAt": "2026-04-14T08:00:00Z",
+    "views": 654
+  },
+  {
+    "id": "4",
+    "slug": "devops-engineer-vercel",
+    "title": "DevOps Engineer",
+    "company": "Vercel",
+    "companyLogo": "https://logo.clearbit.com/vercel.com",
+    "location": "Remote",
+    "locationType": "remote",
+    "jobType": "full-time",
+    "experienceLevel": "senior",
+    "salary": { "min": 150000, "max": 200000, "currency": "USD", "period": "year" },
+    "description": "Vercel is looking for a DevOps Engineer to help scale our global edge network. You'll work on infrastructure that powers millions of deployments every day.",
+    "responsibilities": [
+      "Design and maintain CI/CD pipelines for our engineering teams",
+      "Manage Kubernetes clusters across multiple cloud providers",
+      "Implement infrastructure as code using Terraform",
+      "Monitor and improve system reliability and performance",
+      "Collaborate with security team on compliance and hardening"
+    ],
+    "requirements": [
+      "4+ years of DevOps or SRE experience",
+      "Strong Kubernetes and container orchestration expertise",
+      "Proficiency with Terraform or similar IaC tools",
+      "Experience with major cloud providers (AWS, GCP, Azure)",
+      "Strong scripting skills in Bash or Python"
+    ],
+    "niceToHave": [
+      "Experience with edge computing",
+      "Knowledge of eBPF or networking internals",
+      "Open source contributions"
+    ],
+    "tags": ["Kubernetes", "Terraform", "AWS", "CI/CD", "SRE"],
+    "category": "Engineering",
+    "applicationUrl": "https://vercel.com/careers",
+    "sourceUrl": "https://vercel.com/careers",
+    "featured": false,
+    "postedAt": "2026-04-13T07:00:00Z",
+    "views": 432
+  },
+  {
+    "id": "5",
+    "slug": "data-scientist-openai",
+    "title": "Data Scientist",
+    "company": "OpenAI",
+    "companyLogo": "https://logo.clearbit.com/openai.com",
+    "location": "San Francisco, CA",
+    "locationType": "hybrid",
+    "jobType": "full-time",
+    "experienceLevel": "mid",
+    "salary": { "min": 155000, "max": 210000, "currency": "USD", "period": "year" },
+    "description": "OpenAI is seeking a Data Scientist to help us understand model behavior, measure safety, and drive data-informed decisions across our research and product teams.",
+    "responsibilities": [
+      "Analyze model outputs and performance metrics at scale",
+      "Design and run experiments to measure model improvements",
+      "Build dashboards and tooling for model evaluation",
+      "Collaborate with research teams on safety benchmarks",
+      "Communicate insights to technical and non-technical stakeholders"
+    ],
+    "requirements": [
+      "3+ years of data science experience",
+      "Strong Python skills and ML library expertise (PyTorch, scikit-learn)",
+      "Experience with large-scale data processing (Spark, BigQuery)",
+      "Statistical modeling and experimental design expertise",
+      "Master's or PhD in a quantitative field preferred"
+    ],
+    "niceToHave": [
+      "Experience with LLM evaluation",
+      "Background in NLP research",
+      "Knowledge of causal inference"
+    ],
+    "tags": ["Python", "ML", "PyTorch", "Statistics", "LLMs"],
+    "category": "Data & AI",
+    "applicationUrl": "https://openai.com/careers",
+    "sourceUrl": "https://openai.com/careers",
+    "featured": true,
+    "postedAt": "2026-04-17T11:00:00Z",
+    "views": 2107
+  },
+  {
+    "id": "6",
+    "slug": "marketing-manager-linear",
+    "title": "Marketing Manager",
+    "company": "Linear",
+    "companyLogo": "https://logo.clearbit.com/linear.app",
+    "location": "Remote",
+    "locationType": "remote",
+    "jobType": "full-time",
+    "experienceLevel": "mid",
+    "salary": { "min": 110000, "max": 145000, "currency": "USD", "period": "year" },
+    "description": "Linear is looking for a Marketing Manager to help grow our developer-focused brand. You'll craft campaigns that resonate with engineering teams and drive product adoption.",
+    "responsibilities": [
+      "Develop and execute content marketing strategies",
+      "Manage social media presence and community engagement",
+      "Plan and run paid acquisition campaigns",
+      "Collaborate with product team on launches and announcements",
+      "Track and report on marketing KPIs and growth metrics"
+    ],
+    "requirements": [
+      "3+ years of B2B marketing experience",
+      "Experience marketing developer or SaaS products",
+      "Strong writing and communication skills",
+      "Data-driven approach with analytics proficiency",
+      "Experience with marketing automation tools"
+    ],
+    "niceToHave": [
+      "Technical background or software engineering experience",
+      "Experience with developer communities",
+      "Video production skills"
+    ],
+    "tags": ["Content Marketing", "B2B", "SaaS", "Growth", "Analytics"],
+    "category": "Marketing",
+    "applicationUrl": "https://linear.app/careers",
+    "sourceUrl": "https://linear.app/careers",
+    "featured": false,
+    "postedAt": "2026-04-12T09:00:00Z",
+    "views": 321
+  },
+  {
+    "id": "7",
+    "slug": "ios-engineer-airbnb",
+    "title": "iOS Engineer",
+    "company": "Airbnb",
+    "companyLogo": "https://logo.clearbit.com/airbnb.com",
+    "location": "San Francisco, CA",
+    "locationType": "hybrid",
+    "jobType": "full-time",
+    "experienceLevel": "senior",
+    "salary": { "min": 170000, "max": 230000, "currency": "USD", "period": "year" },
+    "description": "Airbnb's iOS team is growing! Join us to build the mobile experience for millions of travelers and hosts around the world. You'll own critical features of our flagship iOS app.",
+    "responsibilities": [
+      "Build and ship features in Airbnb's iOS app used by millions",
+      "Architect scalable and performant iOS solutions",
+      "Partner with design to implement pixel-perfect UIs",
+      "Write unit and integration tests for all code",
+      "Participate in code reviews and technical planning"
+    ],
+    "requirements": [
+      "5+ years of iOS development experience",
+      "Expert-level Swift and UIKit/SwiftUI knowledge",
+      "Experience with performance profiling and optimization",
+      "Understanding of mobile architecture patterns (MVVM, Clean Architecture)",
+      "App Store shipping experience"
+    ],
+    "niceToHave": [
+      "Experience with React Native",
+      "GraphQL knowledge",
+      "Contributions to iOS open-source libraries"
+    ],
+    "tags": ["Swift", "SwiftUI", "iOS", "Mobile", "Objective-C"],
+    "category": "Engineering",
+    "applicationUrl": "https://careers.airbnb.com",
+    "sourceUrl": "https://careers.airbnb.com",
+    "featured": false,
+    "postedAt": "2026-04-11T10:00:00Z",
+    "views": 589
+  },
+  {
+    "id": "8",
+    "slug": "growth-engineer-figma",
+    "title": "Growth Engineer",
+    "company": "Figma",
+    "companyLogo": "https://logo.clearbit.com/figma.com",
+    "location": "San Francisco, CA",
+    "locationType": "hybrid",
+    "jobType": "full-time",
+    "experienceLevel": "mid",
+    "salary": { "min": 145000, "max": 195000, "currency": "USD", "period": "year" },
+    "description": "Figma's Growth team is looking for an engineer who loves building experiments and improving user onboarding, retention, and monetization. You'll work at the intersection of product, data, and engineering.",
+    "responsibilities": [
+      "Build and run A/B tests to improve key growth metrics",
+      "Develop and optimize user onboarding flows",
+      "Analyze funnel data to identify conversion opportunities",
+      "Collaborate with growth PMs and data scientists",
+      "Instrument new features for tracking and analytics"
+    ],
+    "requirements": [
+      "3+ years of software engineering experience",
+      "Strong full-stack development skills (React, Node.js)",
+      "Experience with experimentation frameworks",
+      "Data analysis skills with SQL proficiency",
+      "Product intuition and user empathy"
+    ],
+    "niceToHave": [
+      "Previous growth engineering experience",
+      "Experience with analytics platforms (Mixpanel, Amplitude)",
+      "Knowledge of product-led growth strategies"
+    ],
+    "tags": ["React", "Node.js", "SQL", "A/B Testing", "Growth"],
+    "category": "Engineering",
+    "applicationUrl": "https://figma.com/careers",
+    "sourceUrl": "https://figma.com/careers",
+    "featured": false,
+    "postedAt": "2026-04-10T09:00:00Z",
+    "views": 445
+  }
+]
