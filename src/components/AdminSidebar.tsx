@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Briefcase, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
+import { Briefcase, LayoutDashboard, LogOut, Menu, Newspaper, X } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
   { label: 'Jobs', href: '/admin/jobs', icon: Briefcase, exact: false },
+  { label: 'Blogs', href: '/admin/blogs', icon: Newspaper, exact: false },
 ];
 
 export default function AdminSidebar() {
@@ -30,7 +31,7 @@ export default function AdminSidebar() {
           <Briefcase size={15} className="text-white" />
         </div>
         <div>
-          <p className="text-sm font-bold leading-tight text-neutral-900">JobBoard</p>
+          <p className="text-sm font-bold leading-tight text-neutral-900">Helpers</p>
           <p className="text-xs text-neutral-400">Admin Panel</p>
         </div>
       </div>
@@ -78,7 +79,7 @@ export default function AdminSidebar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900">
             <Briefcase size={13} className="text-white" />
           </div>
-          <span className="text-sm font-bold text-neutral-900">JobBoard Admin</span>
+          <span className="text-sm font-bold text-neutral-900">Helpers Admin</span>
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}

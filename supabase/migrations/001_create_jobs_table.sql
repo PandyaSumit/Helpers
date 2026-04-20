@@ -38,42 +38,75 @@ begin
 end;
 $$;
 
-create trigger jobs_updated_at
-  before update on public.jobs
-  for each row execute function public.set_updated_at();
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_trigger
+    where tgname = 'jobs_updated_at'
+      and tgrelid = 'public.jobs'::regclass
+  ) then
+    create trigger jobs_updated_at
+      before update on public.jobs
+      for each row execute function public.set_updated_at();
+  end if;
+end $$;
 
 -- Indexes for common query patterns
-create index jobs_featured_idx   on public.jobs (featured)       where featured = true;
-create index jobs_category_idx   on public.jobs (category);
-create index jobs_job_type_idx   on public.jobs (job_type);
-create index jobs_exp_level_idx  on public.jobs (experience_level);
-create index jobs_location_type_idx on public.jobs (location_type);
-create index jobs_posted_at_idx  on public.jobs (posted_at desc);
+create index if not exists jobs_featured_idx   on public.jobs (featured)       where featured = true;
+create index if not exists jobs_category_idx   on public.jobs (category);
+create index if not exists jobs_job_type_idx   on public.jobs (job_type);
+create index if not exists jobs_exp_level_idx  on public.jobs (experience_level);
+create index if not exists jobs_location_type_idx on public.jobs (location_type);
+create index if not exists jobs_posted_at_idx  on public.jobs (posted_at desc);
 
 -- Row Level Security
 alter table public.jobs enable row level security;
 
 -- Anyone can read jobs
-create policy "Jobs are publicly readable"
-  on public.jobs for select
-  using (true);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'jobs' and policyname = 'Jobs are publicly readable'
+  ) then
+    create policy "Jobs are publicly readable"
+      on public.jobs for select
+      using (true);
+  end if;
 
--- Only authenticated users / service role can mutate
--- (service role key bypasses RLS automatically)
-create policy "Authenticated users can insert"
-  on public.jobs for insert
-  to authenticated
-  with check (true);
+  -- Only authenticated users / service role can mutate
+  -- (service role key bypasses RLS automatically)
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'jobs' and policyname = 'Authenticated users can insert'
+  ) then
+    create policy "Authenticated users can insert"
+      on public.jobs for insert
+      to authenticated
+      with check (true);
+  end if;
 
-create policy "Authenticated users can update"
-  on public.jobs for update
-  to authenticated
-  using (true);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'jobs' and policyname = 'Authenticated users can update'
+  ) then
+    create policy "Authenticated users can update"
+      on public.jobs for update
+      to authenticated
+      using (true);
+  end if;
 
-create policy "Authenticated users can delete"
-  on public.jobs for delete
-  to authenticated
-  using (true);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'jobs' and policyname = 'Authenticated users can delete'
+  ) then
+    create policy "Authenticated users can delete"
+      on public.jobs for delete
+      to authenticated
+      using (true);
+  end if;
+end $$;
 
 -- Helper function for safe view count increment
 create or replace function public.increment_job_views(job_id uuid)

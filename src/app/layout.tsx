@@ -6,13 +6,13 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'JobBoard — Curated Tech Jobs',
-    template: '%s | JobBoard',
+    default: 'Helpers — Curated Tech Jobs',
+    template: '%s | Helpers',
   },
   description: 'Discover curated engineering, design, and product opportunities from top companies.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   openGraph: {
-    siteName: 'JobBoard',
+    siteName: 'Helpers',
     type: 'website',
   },
   twitter: {

@@ -255,3 +255,32 @@ insert into public.jobs (
   'Engineering', 'https://figma.com/careers', 'https://figma.com/careers',
   false, '2026-04-10T09:00:00Z', 445
 );
+
+insert into public.blogs (
+  slug, title, excerpt, cover_image, content_html, tags, featured, status,
+  reading_time_minutes, published_at
+) values
+(
+  'how-to-stand-out-in-remote-job-applications',
+  'How to Stand Out in Remote Job Applications',
+  'Practical ways to improve your resume, portfolio, and outreach when applying to remote roles.',
+  'https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?auto=format&fit=crop&w=1400&q=80',
+  '<h2>Why remote applications are different</h2><p>Remote roles attract applicants from anywhere, so your profile must communicate clarity and ownership fast.</p><h3>What recruiters scan first</h3><ul><li>Direct outcome-driven bullet points.</li><li>Proof of async communication.</li><li>Clear timezone and work preference.</li></ul><blockquote>Show specific outcomes, not generic task lists.</blockquote>',
+  ARRAY['Remote Jobs', 'Resume', 'Career Tips'],
+  true,
+  'published',
+  4,
+  '2026-04-18T09:00:00Z'
+),
+(
+  'hiring-signals-to-watch-before-you-apply',
+  'Hiring Signals to Watch Before You Apply',
+  'Use these quick checks to avoid stale listings and focus on real hiring momentum.',
+  'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1400&q=80',
+  '<h2>Check recent activity</h2><p>If the role has been open for months with repeated reposts, the team may not be actively hiring.</p><h3>Source quality matters</h3><p>Prioritize company career pages and recently verified listings.</p>',
+  ARRAY['Hiring Trends', 'Job Search'],
+  false,
+  'published',
+  3,
+  '2026-04-17T12:00:00Z'
+);

@@ -1,17 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {
+  getAdminSessionCookieName,
+  verifyAdminSessionToken,
+} from '@/lib/admin-auth';
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === '/admin/login') return NextResponse.next();
 
-  const session = request.cookies.get('admin_session');
-  const secret = process.env.ADMIN_SESSION_SECRET;
+  const token = request.cookies.get(getAdminSessionCookieName())?.value;
+  const session = await verifyAdminSessionToken(
+    token,
+    process.env.ADMIN_SESSION_SECRET,
+  );
 
-  if (!secret || !session || session.value !== secret) {
+  if (!session) {
     const loginUrl = new URL('/admin/login', request.url);
-    loginUrl.searchParams.set('from', pathname);
-    return NextResponse.redirect(loginUrl);
+    loginUrl.searchParams.set('from', `${pathname}${request.nextUrl.search}`);
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete(getAdminSessionCookieName());
+    return response;
   }
 
   return NextResponse.next();

@@ -40,3 +40,21 @@ export interface JobFilters {
   locationType: string;
   tags: string[];
 }
+
+export type BlogStatus = 'draft' | 'published';
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  coverImage?: string;
+  contentHtml: string;
+  tags: string[];
+  featured: boolean;
+  status: BlogStatus;
+  readingTimeMinutes: number;
+  publishedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}

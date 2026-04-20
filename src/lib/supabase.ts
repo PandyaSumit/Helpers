@@ -30,6 +30,22 @@ export type DbJob = {
   updated_at: string;
 };
 
+export type DbBlog = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  cover_image: string | null;
+  content_html: string;
+  tags: string[];
+  featured: boolean;
+  status: 'draft' | 'published';
+  reading_time_minutes: number;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SupabaseClient = ReturnType<typeof createClient<any>>;
 
