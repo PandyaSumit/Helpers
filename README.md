@@ -62,6 +62,30 @@ ADMIN_SESSION_SECRET=choose_a_long_random_secret
    - Admin pages are not indexed (`robots` / metadata)
 6. Set your production domain and update `NEXT_PUBLIC_SITE_URL` if it changes.
 
+### If you see `404: NOT_FOUND` on `*.vercel.app` or build logs look empty
+
+These almost always come from **Vercel project settings**, not from missing app routes (this repo builds `/` correctly).
+
+1. **Vercel → Project → Settings → General**
+   - **Root Directory:** must be **empty** (repo root), unless this app lives in a subfolder.
+   - **Framework Preset:** **Next.js**.
+
+2. **Settings → Build & Development**
+   - **Build Command:** leave **default** so Vercel uses `vercel.json` → `npm run vercel-build`, or set it explicitly to `npm run vercel-build`.
+   - **Output Directory:** must be **empty** for Next.js. If it is set to `dist`, `build`, `out`, etc., clear it — wrong output causes platform `NOT_FOUND`.
+
+3. **Deployments**
+   - Open the **latest** deployment. Confirm status is **Ready** (not Error/Canceled).
+   - Use **Build** / **Building** tab for logs. Runtime logs are under **Functions** / **Logs**, not the build step.
+
+4. **Git**
+   - Confirm the connected repository and **production branch** contain this Next app (with `package.json` and `src/app/`).
+
+5. **Redeploy**
+   - **Redeploy** → enable **Clear cache and redeploy** once after fixing settings.
+
+This repo includes `vercel.json` so every production build prints a visible `[helpers] vercel-build start` line at the top of the build log.
+
 ## Security Notes
 
 - Do not expose `SUPABASE_SERVICE_ROLE_KEY` on the client.

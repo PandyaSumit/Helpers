@@ -5,8 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "node -e \"console.log('[helpers] vercel-build start', new Date().toISOString(), 'node', process.version)\" && next build",
     "start": "next start",
     "lint": "eslint"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",
