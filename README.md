@@ -10,7 +10,7 @@ Admin workflows (job/blog publishing) are private under `/admin`.
 - Public app routes live in `src/app/(public)`.
 - Admin routes live in `src/app/admin`.
 - Admin APIs are protected with cookie-based checks in `src/lib/admin-auth.ts`.
-- Route-level admin protection is enforced by `src/proxy.ts`.
+- Route-level admin protection is enforced by `src/proxy.ts` (Next.js 16 `proxy`; matches `/admin/*` only).
 - Search indexing is blocked for admin routes (`robots` + admin metadata).
 
 ## Local Development
@@ -84,7 +84,9 @@ These almost always come from **Vercel project settings**, not from missing app 
 5. **Redeploy**
    - **Redeploy** → enable **Clear cache and redeploy** once after fixing settings.
 
-This repo includes `vercel.json` so every production build prints a visible `[helpers] vercel-build start` line at the top of the build log.
+This repo includes `vercel.json` so every production build runs `npm run vercel-build`, which prints a visible `[helpers] vercel-build` line at the top of the build log, then **`next build --webpack`** (Turbopack is avoided on Vercel for more predictable output).
+
+After deploy, open **`/api/health`**. If that returns JSON but `/` still shows Vercel `NOT_FOUND`, the Next app is running but the **Production Domain** or **Output Directory** in Vercel is still misconfigured. If `/api/health` is also `NOT_FOUND`, the deployment is not serving this Next project at all (wrong repo, root directory, or failed build).
 
 ## Security Notes
 

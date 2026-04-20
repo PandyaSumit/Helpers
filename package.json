@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "vercel-build": "node -e \"console.log('[helpers] vercel-build start', new Date().toISOString(), 'node', process.version)\" && next build",
+    "build": "next build --webpack",
+    "vercel-build": "node -e \"console.log('[helpers] vercel-build', new Date().toISOString(), process.version)\" && npm run build",
     "start": "next start",
     "lint": "eslint"
   },
