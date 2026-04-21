@@ -1,47 +1,63 @@
-'use client';
+"use client";
 
-import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, Eye, Save, Send } from 'lucide-react';
-import RichTextEditor from './RichTextEditor';
-import { BlogPost, BlogStatus } from '@/types';
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft, Save, Send, Image as ImageIcon, Tag, Star } from "lucide-react";
+import RichTextEditor from "./RichTextEditor";
+import { BlogPost, BlogStatus } from "@/types";
 
 interface BlogPostEditorProps {
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
   initialBlog?: BlogPost;
 }
 
-const EMPTY_CONTENT = '<p></p>';
+const EMPTY_CONTENT = "<p></p>";
 
-export default function BlogPostEditor({ mode, initialBlog }: BlogPostEditorProps) {
+export default function BlogPostEditor({
+  mode,
+  initialBlog,
+}: BlogPostEditorProps) {
   const router = useRouter();
-  const [title, setTitle] = useState(initialBlog?.title ?? '');
-  const [excerpt, setExcerpt] = useState(initialBlog?.excerpt ?? '');
-  const [coverImage, setCoverImage] = useState(initialBlog?.coverImage ?? '');
-  const [tagsInput, setTagsInput] = useState((initialBlog?.tags ?? []).join(', '));
+  const [title, setTitle] = useState(initialBlog?.title ?? "");
+  const [excerpt, setExcerpt] = useState(initialBlog?.excerpt ?? "");
+  const [coverImage, setCoverImage] = useState(
+    initialBlog?.coverImage ?? ""
+  );
+  const [tagsInput, setTagsInput] = useState(
+    (initialBlog?.tags ?? []).join(", ")
+  );
   const [featured, setFeatured] = useState(initialBlog?.featured ?? false);
-  const [status, setStatus] = useState<BlogStatus>(initialBlog?.status ?? 'draft');
-  const [contentHtml, setContentHtml] = useState(initialBlog?.contentHtml ?? EMPTY_CONTENT);
+  const [status, setStatus] = useState<BlogStatus>(
+    initialBlog?.status ?? "draft"
+  );
+  const [contentHtml, setContentHtml] = useState(
+    initialBlog?.contentHtml ?? EMPTY_CONTENT
+  );
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [showMeta, setShowMeta] = useState(false);
 
-  const readingTime = useMemo(() => {
-    const words = contentHtml
-      .replace(/<[^>]+>/g, ' ')
+  const wordCount = useMemo(() => {
+    return contentHtml
+      .replace(/<[^>]+>/g, " ")
       .split(/\s+/)
       .filter(Boolean).length;
-    return Math.max(1, Math.ceil(words / 220));
   }, [contentHtml]);
 
+  const readingTime = useMemo(
+    () => Math.max(1, Math.ceil(wordCount / 220)),
+    [wordCount]
+  );
+
   const onSubmit = async (nextStatus: BlogStatus) => {
-    setError('');
+    setError("");
     if (!title.trim()) {
-      setError('Title is required.');
+      setError("Title is required.");
       return;
     }
-    if (!contentHtml || contentHtml === '<p></p>') {
-      setError('Please add content before saving.');
+    if (!contentHtml || contentHtml === "<p></p>") {
+      setError("Please add some content before saving.");
       return;
     }
 
@@ -52,169 +68,242 @@ export default function BlogPostEditor({ mode, initialBlog }: BlogPostEditorProp
         excerpt: excerpt.trim(),
         coverImage: coverImage.trim() || undefined,
         tags: tagsInput
-          .split(',')
-          .map((tag) => tag.trim())
+          .split(",")
+          .map((t) => t.trim())
           .filter(Boolean),
         featured,
         status: nextStatus,
         contentHtml,
       };
 
-      const endpoint = mode === 'create' ? '/api/blogs' : `/api/blogs/${initialBlog?.id}`;
-      const method = mode === 'create' ? 'POST' : 'PUT';
+      const endpoint =
+        mode === "create" ? "/api/blogs" : `/api/blogs/${initialBlog?.id}`;
+      const method = mode === "create" ? "POST" : "PUT";
       const res = await fetch(endpoint, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
-        const response = await res.json();
-        throw new Error(response.error ?? 'Failed to save post.');
+        const data = await res.json();
+        throw new Error(data.error ?? "Failed to save post.");
       }
 
-      router.push('/admin/blogs');
+      router.push("/admin/blogs");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong.');
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="mx-auto max-w-5xl pb-10">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
+    <div className="flex min-h-screen flex-col bg-white">
+      {/* ── Sticky top bar ─────────────────────────────────── */}
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-neutral-100 bg-white/95 px-4 py-3 backdrop-blur-sm sm:px-6">
+        <div className="flex items-center gap-3">
           <Link
             href="/admin/blogs"
-            className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-neutral-900"
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
           >
             <ArrowLeft size={14} />
-            Back to blogs
+            <span className="hidden sm:inline">Blogs</span>
           </Link>
-          <h1 className="text-2xl font-bold text-neutral-900">
-            {mode === 'create' ? 'New Blog Post' : 'Edit Blog Post'}
-          </h1>
-          <p className="mt-1 text-sm text-neutral-500">
-            Write with a clean editorial canvas and publish when ready.
-          </p>
+
+          <span className="text-neutral-200">/</span>
+
+          <span className="text-sm font-medium text-neutral-500">
+            {mode === "create" ? "New post" : "Edit post"}
+          </span>
+
+          {status === "published" ? (
+            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+              Published
+            </span>
+          ) : (
+            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-700">
+              Draft
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
+          <span className="hidden text-xs text-neutral-400 sm:block">
+            {wordCount} words · {readingTime} min read
+          </span>
+
+          <button
+            type="button"
+            onClick={() => setShowMeta(!showMeta)}
+            title="Post settings"
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors sm:gap-2 ${
+              showMeta
+                ? "border-neutral-900 bg-neutral-900 text-white"
+                : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+            }`}
+          >
+            <Tag size={14} />
+            <span className="hidden sm:inline">Settings</span>
+          </button>
+
           <button
             type="button"
             disabled={submitting}
             onClick={() => onSubmit(status)}
-            className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-100 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50"
           >
-            <Save size={15} />
-            Save
+            <Save size={14} />
+            <span className="hidden sm:inline">Save</span>
           </button>
+
           <button
             type="button"
             disabled={submitting}
-            onClick={() => onSubmit('published')}
-            className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-700 disabled:opacity-50"
+            onClick={() => onSubmit("published")}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-neutral-900 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700 disabled:opacity-50"
           >
-            <Send size={15} />
-            Publish
+            <Send size={14} />
+            <span className="hidden sm:inline">Publish</span>
           </button>
         </div>
-      </div>
+      </header>
 
+      {/* ── Error banner ───────────────────────────────────── */}
       {error && (
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="border-b border-red-100 bg-red-50 px-6 py-3 text-sm text-red-700">
           {error}
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="space-y-4">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Write a clear, compelling headline..."
-            className="w-full rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-3xl font-bold tracking-tight text-neutral-900 outline-none placeholder:text-neutral-300 focus:border-neutral-400 focus:ring-2 focus:ring-neutral-100"
-          />
+      {/* ── Settings panel (slide-in) ──────────────────────── */}
+      {showMeta && (
+        <div className="border-b border-neutral-100 bg-neutral-50/80 px-4 py-5 sm:px-6">
+          <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Status */}
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                Status
+              </label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value as BlogStatus)}
+                className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-700 outline-none focus:border-neutral-400"
+              >
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
 
-          <textarea
-            rows={2}
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-            placeholder="Short summary for cards and SEO. Leave empty to auto-generate."
-            className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-700 outline-none placeholder:text-neutral-400 focus:border-neutral-400 focus:ring-2 focus:ring-neutral-100"
-          />
-
-          <RichTextEditor value={contentHtml} onChange={setContentHtml} />
-        </div>
-
-        <aside className="space-y-4">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-4">
-            <h2 className="text-sm font-semibold text-neutral-900">Post Settings</h2>
-            <div className="mt-3 space-y-3">
-              <div>
-                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                  Status
-                </label>
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value as BlogStatus)}
-                  className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-700 outline-none focus:border-neutral-400"
-                >
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                </select>
+            {/* Tags */}
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                Tags
+              </label>
+              <div className="relative">
+                <Tag
+                  size={13}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
+                />
+                <input
+                  value={tagsInput}
+                  onChange={(e) => setTagsInput(e.target.value)}
+                  placeholder="React, Career, Tips"
+                  className="w-full rounded-lg border border-neutral-200 bg-white py-2 pl-8 pr-3 text-sm text-neutral-700 outline-none focus:border-neutral-400"
+                />
               </div>
+            </div>
 
-              <div>
-                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                  Cover Image URL
-                </label>
+            {/* Cover image */}
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                Cover Image URL
+              </label>
+              <div className="relative">
+                <ImageIcon
+                  size={13}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
+                />
                 <input
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
                   placeholder="https://..."
-                  className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-700 outline-none focus:border-neutral-400"
+                  className="w-full rounded-lg border border-neutral-200 bg-white py-2 pl-8 pr-3 text-sm text-neutral-700 outline-none focus:border-neutral-400"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                  Tags
-                </label>
-                <input
-                  value={tagsInput}
-                  onChange={(e) => setTagsInput(e.target.value)}
-                  placeholder="Hiring, Career Tips, Resume"
-                  className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-700 outline-none focus:border-neutral-400"
-                />
-              </div>
-
-              <label className="flex items-center gap-2 text-sm text-neutral-700">
-                <input
-                  type="checkbox"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  className="h-4 w-4 rounded border-neutral-300"
-                />
+            {/* Featured */}
+            <div className="flex items-end pb-1">
+              <label className="flex cursor-pointer items-center gap-2.5 text-sm text-neutral-700">
+                <span
+                  onClick={() => setFeatured(!featured)}
+                  className={`flex h-5 w-5 items-center justify-center rounded border transition-colors ${
+                    featured
+                      ? "border-amber-400 bg-amber-400 text-white"
+                      : "border-neutral-300 bg-white text-transparent"
+                  }`}
+                >
+                  <Star size={11} fill="currentColor" />
+                </span>
                 Feature this post
               </label>
             </div>
           </div>
+        </div>
+      )}
 
-          <div className="rounded-2xl border border-neutral-200 bg-white p-4">
-            <h2 className="text-sm font-semibold text-neutral-900">Quick Info</h2>
-            <ul className="mt-3 space-y-2 text-sm text-neutral-600">
-              <li>{readingTime} min read</li>
-              <li>{contentHtml.replace(/<[^>]+>/g, ' ').trim().length} characters</li>
-              <li className="inline-flex items-center gap-1">
-                <Eye size={14} />
-                Live formatting preview in editor
-              </li>
-            </ul>
+      {/* ── Writing area ───────────────────────────────────── */}
+      <div className="mx-auto w-full max-w-3xl flex-1 px-5 py-10 sm:px-6 sm:py-14">
+        {/* Cover preview */}
+        {coverImage && (
+          <div className="mb-8 overflow-hidden rounded-xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={coverImage}
+              alt="Cover"
+              className="h-48 w-full object-cover sm:h-64"
+              onError={(e) =>
+                ((e.target as HTMLImageElement).style.display = "none")
+              }
+            />
           </div>
-        </aside>
+        )}
+
+        {/* Title */}
+        <textarea
+          rows={2}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Post title…"
+          className="w-full resize-none border-none bg-transparent text-3xl font-bold leading-tight tracking-tight text-neutral-900 outline-none placeholder:text-neutral-300 sm:text-4xl md:text-5xl"
+          onInput={(e) => {
+            const el = e.target as HTMLTextAreaElement;
+            el.style.height = "auto";
+            el.style.height = `${el.scrollHeight}px`;
+          }}
+        />
+
+        {/* Excerpt / subtitle */}
+        <textarea
+          rows={1}
+          value={excerpt}
+          onChange={(e) => setExcerpt(e.target.value)}
+          placeholder="Add a brief subtitle or summary (optional, used for SEO)…"
+          className="mt-3 w-full resize-none border-none bg-transparent text-lg leading-relaxed text-neutral-500 outline-none placeholder:text-neutral-300"
+          onInput={(e) => {
+            const el = e.target as HTMLTextAreaElement;
+            el.style.height = "auto";
+            el.style.height = `${el.scrollHeight}px`;
+          }}
+        />
+
+        {/* Divider */}
+        <div className="my-6 border-t border-neutral-100" />
+
+        {/* Rich text editor */}
+        <RichTextEditor value={contentHtml} onChange={setContentHtml} />
       </div>
     </div>
   );

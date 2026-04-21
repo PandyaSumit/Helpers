@@ -46,6 +46,16 @@ ADMIN_SESSION_SECRET=choose_a_long_random_secret
 
 ## Vercel Deployment Checklist
 
+### Repo verification (matches common Next.js 16 + Vercel guidance)
+
+| Check | Status in this repo |
+|--------|----------------------|
+| Framework preset | `vercel.json` sets `"framework": "nextjs"`. In Vercel **Settings → General**, preset should also be **Next.js** (dashboard can override; keep them aligned). |
+| Build command | `vercel.json` → `"buildCommand": "npm run vercel-build"`. That script logs then runs `npm run build` → **`next build --webpack`**. In Vercel **Build & Development**, either leave **Build Command empty** (uses `vercel.json`) or set it **exactly** to `npm run vercel-build`. |
+| Install command | `vercel.json` → `"installCommand": "npm install"`. Match in dashboard or leave default. |
+| Output directory | **Must be blank** in Vercel (Next uses `.next` internally). This repo has **no** `output` / `distDir` in `next.config.ts`. |
+| Middleware vs proxy | **No** `src/middleware.ts`. **Yes** `src/proxy.ts` with `export async function proxy` and `matcher: ['/admin/:path*']` only — correct for Next.js 16. |
+
 1. Push code to GitHub.
 2. Import the repo into Vercel.
 3. Add all required environment variables for **Production** (and Preview if needed):
