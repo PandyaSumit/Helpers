@@ -100,7 +100,7 @@ export default function BlogPostEditor({
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-full flex-col bg-white">
       {/* ── Sticky top bar ─────────────────────────────────── */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-neutral-100 bg-white/95 px-4 py-3 backdrop-blur-sm sm:px-6">
         <div className="flex items-center gap-3">

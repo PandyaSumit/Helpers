@@ -1,5 +1,13 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Megaphone,
+  Package,
+  Palette,
+  Settings,
+  Wrench,
+} from "lucide-react";
 import { getFeaturedJobs, getStats } from "@/lib/jobs";
 import { getLatestBlogs } from "@/lib/blogs";
 import JobCard from "@/components/JobCard";
@@ -20,12 +28,12 @@ export const metadata: Metadata = {
 };
 
 const CATEGORIES = [
-  { name: "Engineering", icon: "⚙️" },
-  { name: "Design", icon: "🎨" },
-  { name: "Data & AI", icon: "🤖" },
-  { name: "Marketing", icon: "📣" },
-  { name: "Product", icon: "📦" },
-  { name: "Operations", icon: "🔧" },
+  { name: "Engineering", icon: Settings },
+  { name: "Design", icon: Palette },
+  { name: "Data & AI", icon: Bot },
+  { name: "Marketing", icon: Megaphone },
+  { name: "Product", icon: Package },
+  { name: "Operations", icon: Wrench },
 ];
 
 const POPULAR_SEARCHES = [
@@ -153,13 +161,15 @@ export default async function HomePage() {
             </h2>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {CATEGORIES.map(({ name, icon }) => (
+            {CATEGORIES.map(({ name, icon: Icon }) => (
               <Link
                 key={name}
                 href={`/jobs?category=${encodeURIComponent(name)}`}
                 className="flex flex-col items-center gap-2.5 rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center transition-all duration-150 hover:border-neutral-300 hover:shadow-sm"
               >
-                <span className="text-2xl">{icon}</span>
+                <span className="rounded-lg bg-neutral-100 p-2 text-neutral-700">
+                  <Icon size={18} />
+                </span>
                 <span className="text-xs font-medium text-neutral-700">
                   {name}
                 </span>

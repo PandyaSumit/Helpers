@@ -69,12 +69,12 @@ export default function AdminSidebar() {
   return (
     <>
       {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-20 lg:flex lg:w-60 lg:flex-col lg:border-r lg:border-neutral-100 lg:bg-white">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-20 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-neutral-100 lg:bg-white">
         {navContent}
       </div>
 
       {/* Mobile top bar */}
-      <div className="fixed inset-x-0 top-0 z-30 flex items-center justify-between border-b border-neutral-100 bg-white px-4 py-3 lg:hidden">
+      <div className="fixed inset-x-0 top-0 z-30 flex items-center justify-between border-b border-neutral-100 bg-white px-4 py-3 shadow-sm lg:hidden">
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900">
             <Briefcase size={13} className="text-white" />
@@ -96,7 +96,7 @@ export default function AdminSidebar() {
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-60 bg-white shadow-xl">
+          <div className="absolute inset-y-0 left-0 w-64 bg-white shadow-xl">
             <div className="pt-14">{navContent}</div>
           </div>
         </div>

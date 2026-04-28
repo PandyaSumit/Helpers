@@ -23,15 +23,15 @@ export default async function AdminDashboard() {
   ];
 
   return (
-    <div>
-      <div className="mb-8 flex items-center justify-between">
+    <div className="space-y-6 lg:space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
-          <p className="mt-0.5 text-sm text-neutral-500">Overview of your job listings</p>
+          <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">Dashboard</h1>
+          <p className="mt-1 text-sm text-neutral-500">Overview of your job listings</p>
         </div>
         <Link
           href="/admin/jobs"
-          className="flex items-center gap-2 rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-700"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-700 sm:w-auto"
         >
           <Plus size={15} />
           New Job
@@ -52,7 +52,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Category breakdown */}
-      <div className="mt-8 grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-base font-semibold text-neutral-900">Recent Listings</h2>
@@ -64,7 +64,7 @@ export default async function AdminDashboard() {
             {recentJobs.length > 0 ? (
               <div className="divide-y divide-neutral-50">
                 {recentJobs.map((job) => (
-                  <div key={job.id} className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-neutral-50">
+                  <div key={job.id} className="flex flex-col gap-3 px-4 py-4 hover:bg-neutral-50 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3.5">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50">
                         {job.companyLogo ? (
@@ -80,7 +80,7 @@ export default async function AdminDashboard() {
                         <p className="text-xs text-neutral-500">{job.company} · {timeAgo(job.postedAt)}</p>
                       </div>
                     </div>
-                    <div className="flex flex-shrink-0 items-center gap-2">
+                    <div className="flex flex-shrink-0 items-center gap-2 self-end sm:self-auto">
                       {job.featured && (
                         <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
                           Featured
