@@ -60,7 +60,7 @@ export default async function JobDetailPage({ params }: Props) {
   const schema = generateJobSchema(job);
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
       <Link
         href="/jobs"
         className="mb-7 inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition-colors duration-200 hover:text-neutral-900"
@@ -74,7 +74,7 @@ export default async function JobDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article className="min-w-0">
           <header className="border-b border-neutral-200 pb-7">
             <div className="flex items-start gap-4">
@@ -103,7 +103,7 @@ export default async function JobDetailPage({ params }: Props) {
                     </span>
                   )}
                 </div>
-                <h1 className="mt-1 text-3xl font-semibold leading-tight text-neutral-900 sm:text-4xl">
+                <h1 className="mt-1 text-[clamp(1.6rem,6.2vw,2.25rem)] font-semibold leading-tight text-neutral-900">
                   {job.title}
                 </h1>
                 <p className="mt-2 text-sm text-neutral-500">
@@ -149,23 +149,23 @@ export default async function JobDetailPage({ params }: Props) {
           </header>
 
           <section className="py-8">
-            <h2 className="mb-4 text-xl font-semibold text-neutral-900">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-900 sm:text-xl">
               About the role
             </h2>
-            <p className="max-w-3xl text-[15px] leading-7 text-neutral-700">
+            <p className="max-w-3xl text-sm leading-7 text-neutral-700 sm:text-[15px]">
               {job.description}
             </p>
           </section>
 
           <section className="border-t border-neutral-200 py-8">
-            <h2 className="mb-4 text-xl font-semibold text-neutral-900">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-900 sm:text-xl">
               Responsibilities
             </h2>
             <ul className="space-y-3">
               {job.responsibilities.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2.5 text-[15px] leading-7 text-neutral-700"
+                  className="flex items-start gap-2.5 text-sm leading-7 text-neutral-700 sm:text-[15px]"
                 >
                   <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-500" />
                   {item}
@@ -175,14 +175,14 @@ export default async function JobDetailPage({ params }: Props) {
           </section>
 
           <section className="border-t border-neutral-200 py-8">
-            <h2 className="mb-4 text-xl font-semibold text-neutral-900">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-900 sm:text-xl">
               Requirements
             </h2>
             <ul className="space-y-3">
               {job.requirements.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2.5 text-[15px] leading-7 text-neutral-700"
+                  className="flex items-start gap-2.5 text-sm leading-7 text-neutral-700 sm:text-[15px]"
                 >
                   <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-900" />
                   {item}
@@ -193,14 +193,14 @@ export default async function JobDetailPage({ params }: Props) {
 
           {job.niceToHave && job.niceToHave.length > 0 && (
             <section className="border-t border-neutral-200 py-8">
-              <h2 className="mb-4 text-xl font-semibold text-neutral-900">
+              <h2 className="mb-4 text-lg font-semibold text-neutral-900 sm:text-xl">
                 Nice to have
               </h2>
               <ul className="space-y-3">
                 {job.niceToHave.map((item, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-2.5 text-[15px] leading-7 text-neutral-600"
+                    className="flex items-start gap-2.5 text-sm leading-7 text-neutral-600 sm:text-[15px]"
                   >
                     <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neutral-400" />
                     {item}
@@ -239,7 +239,7 @@ export default async function JobDetailPage({ params }: Props) {
               ].map(([label, value]) => (
                 <div
                   key={label}
-                  className="flex items-start justify-between gap-3 text-sm"
+                  className="flex items-start justify-between gap-3 text-xs sm:text-sm"
                 >
                   <span className="text-neutral-500">{label}</span>
                   <span className="text-right font-medium text-neutral-800">

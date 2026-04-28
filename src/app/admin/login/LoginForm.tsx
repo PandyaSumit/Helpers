@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Briefcase, Eye, EyeOff, LogIn } from 'lucide-react';
+import { Eye, EyeOff, LogIn } from 'lucide-react';
+import BrandMark from '@/components/BrandMark';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -47,8 +48,8 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-900">
-          <Briefcase size={22} className="text-white" />
+        <div className="mx-auto mb-4 w-fit">
+          <BrandMark className="h-12 w-12" />
         </div>
         <h1 className="text-2xl font-bold text-neutral-900">Admin Access</h1>
         <p className="mt-1 text-sm text-neutral-500">

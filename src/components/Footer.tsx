@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Briefcase } from "lucide-react";
+import BrandMark from "@/components/BrandMark";
 
 const footerLinks = {
   Platform: [
@@ -35,9 +35,7 @@ export default function Footer() {
               href="/"
               className="inline-flex items-center gap-2 font-bold tracking-tight text-neutral-900"
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900 text-white">
-                <Briefcase size={14} />
-              </span>
+              <BrandMark className="h-7 w-7" />
               <span className="text-sm">Helpers</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-neutral-500">

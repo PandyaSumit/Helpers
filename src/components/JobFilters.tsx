@@ -79,7 +79,11 @@ export default function JobFilters({ categories }: JobFiltersProps) {
     searchParams.has("locationType");
 
   useEffect(() => {
-    setSearchValue(activeSearch);
+    // Avoid synchronous setState in effect; update after paint.
+    const timeout = window.setTimeout(() => {
+      setSearchValue(activeSearch);
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [activeSearch, searchParams]);
 
   useEffect(() => {
@@ -122,8 +126,8 @@ export default function JobFilters({ categories }: JobFiltersProps) {
       </div>
 
       {/* Filter row */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="flex items-center gap-1.5 text-xs font-medium text-neutral-400">
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-[auto_repeat(4,minmax(0,1fr))_auto] lg:items-center">
+        <span className="flex items-center gap-1.5 px-1 text-xs font-medium text-neutral-400">
           <SlidersHorizontal size={12} />
           Filter:
         </span>
@@ -132,7 +136,6 @@ export default function JobFilters({ categories }: JobFiltersProps) {
           value={searchParams.get("category") ?? "all"}
           onChange={(e) => setFilter("category", e.target.value)}
           className={selectClass}
-          style={{ width: "auto", minWidth: "130px" }}
         >
           <option value="all">All Categories</option>
           {categories.map((c) => (
@@ -146,7 +149,6 @@ export default function JobFilters({ categories }: JobFiltersProps) {
           value={searchParams.get("jobType") ?? "all"}
           onChange={(e) => setFilter("jobType", e.target.value)}
           className={selectClass}
-          style={{ width: "auto", minWidth: "120px" }}
         >
           {JOB_TYPES.map((t) => (
             <option key={t.value} value={t.value}>
@@ -159,7 +161,6 @@ export default function JobFilters({ categories }: JobFiltersProps) {
           value={searchParams.get("experienceLevel") ?? "all"}
           onChange={(e) => setFilter("experienceLevel", e.target.value)}
           className={selectClass}
-          style={{ width: "auto", minWidth: "110px" }}
         >
           {EXPERIENCE_LEVELS.map((l) => (
             <option key={l.value} value={l.value}>
@@ -172,7 +173,6 @@ export default function JobFilters({ categories }: JobFiltersProps) {
           value={searchParams.get("locationType") ?? "all"}
           onChange={(e) => setFilter("locationType", e.target.value)}
           className={selectClass}
-          style={{ width: "auto", minWidth: "130px" }}
         >
           {LOCATION_TYPES.map((l) => (
             <option key={l.value} value={l.value}>
@@ -184,7 +184,7 @@ export default function JobFilters({ categories }: JobFiltersProps) {
         {hasFilters && (
           <button
             onClick={clearAll}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-neutral-200 px-3 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:bg-neutral-50 hover:text-neutral-700"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-neutral-200 px-3 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:bg-neutral-50 hover:text-neutral-700"
           >
             <X size={12} />
             Clear all

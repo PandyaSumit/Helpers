@@ -5,19 +5,19 @@ import { timeAgo } from '@/lib/utils';
 
 export default function BlogCard({ blog }: { blog: BlogPost }) {
   return (
-    <article className="overflow-hidden rounded-2xl border border-neutral-200 bg-white transition-all hover:border-neutral-300 hover:shadow-sm">
+    <article className="overflow-hidden rounded-xl border border-neutral-200 bg-white transition-all hover:border-neutral-300 hover:shadow-sm sm:rounded-2xl">
       <Link href={`/blog/${blog.slug}`} className="block">
         {blog.coverImage ? (
-          <div className="relative h-44 w-full bg-neutral-100">
+          <div className="relative h-40 w-full bg-neutral-100 sm:h-44">
             <Image src={blog.coverImage} alt={blog.title} fill className="object-cover" unoptimized />
           </div>
         ) : (
-          <div className="h-44 bg-gradient-to-r from-neutral-100 to-neutral-200" />
+          <div className="h-40 bg-gradient-to-r from-neutral-100 to-neutral-200 sm:h-44" />
         )}
       </Link>
 
-      <div className="p-5">
-        <div className="mb-2 flex items-center gap-2 text-xs text-neutral-500">
+      <div className="p-4 sm:p-5">
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] text-neutral-500 sm:text-xs">
           <span>{blog.readingTimeMinutes} min read</span>
           <span>•</span>
           <span>{timeAgo(blog.publishedAt ?? blog.createdAt)}</span>
@@ -30,12 +30,14 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
         </div>
 
         <Link href={`/blog/${blog.slug}`}>
-          <h3 className="line-clamp-2 text-xl font-semibold leading-snug text-neutral-900 hover:text-neutral-700">
+          <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-neutral-900 transition-colors hover:text-neutral-700 sm:text-xl">
             {blog.title}
           </h3>
         </Link>
 
-        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600">{blog.excerpt}</p>
+        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600 sm:text-[15px]">
+          {blog.excerpt}
+        </p>
 
         {blog.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">

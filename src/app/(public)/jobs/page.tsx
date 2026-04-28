@@ -42,8 +42,8 @@ async function JobPageContent({
     <div className="space-y-6">
       <JobFilters categories={categories} />
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-500">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm text-neutral-500 sm:text-[15px]">
           <span className="font-semibold text-neutral-900">
             {filteredJobs.length}
           </span>{" "}
@@ -63,8 +63,8 @@ async function JobPageContent({
           ))}
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-neutral-200 py-20 text-center">
-          <p className="text-base font-semibold text-neutral-500">
+        <div className="rounded-xl border border-dashed border-neutral-200 py-14 text-center sm:py-20">
+          <p className="text-base font-semibold text-neutral-500 sm:text-lg">
             No jobs found
           </p>
           <p className="mt-1.5 text-sm text-neutral-400">
@@ -80,9 +80,9 @@ const JobPageSkeleton = () => (
   <div className="animate-pulse space-y-6">
     <div className="space-y-3">
       <div className="h-10 rounded-xl bg-neutral-100" />
-      <div className="flex gap-2">
+      <div className="grid gap-2 sm:flex">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-9 w-32 rounded-lg bg-neutral-100" />
+          <div key={i} className="h-9 w-full rounded-lg bg-neutral-100 sm:w-32" />
         ))}
       </div>
     </div>
@@ -116,16 +116,16 @@ export default async function JobsPage({ searchParams }: Props) {
   const params = await searchParams;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       {/* Page header */}
       <div className="mb-8">
         <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
           Helpers
         </p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+        <h1 className="mt-1 text-[clamp(1.7rem,5.8vw,2.25rem)] font-bold tracking-tight text-neutral-900">
           Browse Jobs
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600 sm:text-base">
           Curated roles in engineering, design, data, and product — reviewed
           before they go live.
         </p>

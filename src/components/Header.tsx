@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import BrandMark from "@/components/BrandMark";
 
 const navLinks = [
   { href: "/jobs", label: "Browse Jobs" },
@@ -25,9 +26,7 @@ export default function Header() {
           href="/"
           className="flex items-center gap-2 font-bold tracking-tight text-neutral-900"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900 text-white">
-            <Briefcase size={14} />
-          </span>
+          <BrandMark className="h-7 w-7" />
           <span className="text-sm">Helpers</span>
         </Link>
 

@@ -55,7 +55,7 @@ export default async function HomePage() {
   return (
     <main>
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="bg-linear-to-b from-amber-50/50 via-white to-white px-4 pb-16 pt-20 sm:pb-20 sm:pt-28">
+      <section className="bg-linear-to-b from-amber-50/50 via-white to-white px-4 pb-14 pt-16 sm:pb-20 sm:pt-24 lg:pt-28">
         <div className="mx-auto max-w-4xl text-center">
           {/* Live badge */}
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-medium text-neutral-600 shadow-sm">
@@ -63,10 +63,10 @@ export default async function HomePage() {
             {stats.total} curated opportunities live right now
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+          <h1 className="text-[clamp(2rem,8.5vw,4rem)] font-bold tracking-tight text-neutral-900">
             Find Your Dream Job
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-neutral-600 sm:text-base md:text-lg">
             Hand-picked roles from top companies. No spam, no noise — just
             opportunities worth your time.
           </p>
@@ -92,7 +92,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Stats ────────────────────────────────────────────────── */}
-      <section className="border-y border-neutral-200 bg-white px-4 py-6 sm:px-6">
+      <section className="border-y border-neutral-200 bg-white px-4 py-5 sm:px-6 sm:py-6">
         <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-6 sm:grid-cols-4">
           {[
             { label: "Active Jobs", value: stats.total },
@@ -101,8 +101,10 @@ export default async function HomePage() {
             { label: "Categories", value: stats.categories },
           ].map(({ label, value }) => (
             <div key={label} className="text-center">
-              <dd className="text-2xl font-bold text-neutral-900">{value}</dd>
-              <dt className="mt-0.5 text-xs text-neutral-500">{label}</dt>
+              <dd className="text-[clamp(1.35rem,5vw,1.75rem)] font-bold text-neutral-900">
+                {value}
+              </dd>
+              <dt className="mt-0.5 text-[11px] text-neutral-500 sm:text-xs">{label}</dt>
             </div>
           ))}
         </dl>
@@ -110,13 +112,13 @@ export default async function HomePage() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* ── Featured Jobs ─────────────────────────────────────── */}
-        <section className="py-14">
-          <div className="mb-7 flex items-end justify-between">
+        <section className="py-10 sm:py-14">
+          <div className="mb-6 flex items-end justify-between sm:mb-7">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
                 Featured
               </p>
-              <h2 className="mt-1 text-2xl font-bold text-neutral-900">
+              <h2 className="mt-1 text-[clamp(1.35rem,4.8vw,1.55rem)] font-bold text-neutral-900">
                 Top Opportunities
               </h2>
             </div>
@@ -151,12 +153,12 @@ export default async function HomePage() {
         </section>
 
         {/* ── Browse by Category ────────────────────────────────── */}
-        <section className="border-t border-neutral-200 py-14">
-          <div className="mb-7">
+        <section className="border-t border-neutral-200 py-10 sm:py-14">
+          <div className="mb-6 sm:mb-7">
             <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
               Explore
             </p>
-            <h2 className="mt-1 text-2xl font-bold text-neutral-900">
+            <h2 className="mt-1 text-[clamp(1.35rem,4.8vw,1.55rem)] font-bold text-neutral-900">
               Browse by Category
             </h2>
           </div>
@@ -170,7 +172,7 @@ export default async function HomePage() {
                 <span className="rounded-lg bg-neutral-100 p-2 text-neutral-700">
                   <Icon size={18} />
                 </span>
-                <span className="text-xs font-medium text-neutral-700">
+                <span className="text-[11px] font-medium text-neutral-700 sm:text-xs">
                   {name}
                 </span>
               </Link>
@@ -180,13 +182,13 @@ export default async function HomePage() {
 
         {/* ── Blog ─────────────────────────────────────────────── */}
         {latestBlogs.length > 0 && (
-          <section className="border-t border-neutral-200 py-14">
-            <div className="mb-7 flex items-end justify-between">
+          <section className="border-t border-neutral-200 py-10 sm:py-14">
+            <div className="mb-6 flex items-end justify-between sm:mb-7">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
                   Insights
                 </p>
-                <h2 className="mt-1 text-2xl font-bold text-neutral-900">
+                <h2 className="mt-1 text-[clamp(1.35rem,4.8vw,1.55rem)] font-bold text-neutral-900">
                   From the Blog
                 </h2>
               </div>
@@ -206,12 +208,12 @@ export default async function HomePage() {
         )}
 
         {/* ── CTA ──────────────────────────────────────────────── */}
-        <section className="border-t border-neutral-200 py-14">
-          <div className="rounded-2xl bg-neutral-900 px-8 py-12 text-center sm:py-16">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+        <section className="border-t border-neutral-200 py-10 sm:py-14">
+          <div className="rounded-2xl bg-neutral-900 px-4 py-10 text-center sm:px-8 sm:py-16">
+            <h2 className="text-[clamp(1.4rem,5.2vw,1.9rem)] font-bold text-white">
               Ready to find your next role?
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-neutral-400">
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-neutral-400 sm:text-base">
               Every listing is reviewed before it goes live. Quality over
               quantity — always.
             </p>

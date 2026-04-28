@@ -31,12 +31,12 @@ export default function AdminDataTable<T>({
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const scrollRootRef = useRef<HTMLDivElement | null>(null);
 
-  const hasMore = visibleCount < rows.length;
-  const visibleRows = useMemo(() => rows.slice(0, visibleCount), [rows, visibleCount]);
-
-  useEffect(() => {
-    setVisibleCount(pageSize);
-  }, [rows.length, pageSize]);
+  const effectiveVisibleCount = Math.min(Math.max(pageSize, visibleCount), rows.length || pageSize);
+  const hasMore = effectiveVisibleCount < rows.length;
+  const visibleRows = useMemo(
+    () => rows.slice(0, effectiveVisibleCount),
+    [rows, effectiveVisibleCount],
+  );
 
   useEffect(() => {
     const sentinel = sentinelRef.current;

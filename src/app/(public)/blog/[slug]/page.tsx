@@ -39,7 +39,7 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!blog) notFound();
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+    <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
       <Link
         href="/blog"
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900"
@@ -49,8 +49,8 @@ export default async function BlogDetailPage({ params }: Props) {
       </Link>
 
       <article>
-        <header className="border-b border-neutral-200 pb-6">
-          <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+        <header className="border-b border-neutral-200 pb-5 sm:pb-6">
+          <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] text-neutral-500 sm:text-xs">
             <span>{blog.readingTimeMinutes} min read</span>
             <span>•</span>
             <span>{timeAgo(blog.publishedAt ?? blog.createdAt)}</span>
@@ -61,14 +61,18 @@ export default async function BlogDetailPage({ params }: Props) {
               </>
             )}
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">{blog.title}</h1>
-          <p className="mt-3 text-base leading-relaxed text-neutral-600 sm:text-lg">{blog.excerpt}</p>
+          <h1 className="text-[clamp(1.65rem,5.5vw,2.45rem)] font-bold tracking-tight text-neutral-900">
+            {blog.title}
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-neutral-600 sm:text-base md:text-lg">
+            {blog.excerpt}
+          </p>
           {blog.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {blog.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600"
+                  className="rounded-full border border-neutral-200 px-2.5 py-1 text-[11px] font-medium text-neutral-600 sm:text-xs"
                 >
                   {tag}
                 </span>
@@ -78,13 +82,13 @@ export default async function BlogDetailPage({ params }: Props) {
         </header>
 
         {blog.coverImage && (
-          <div className="relative mt-6 h-56 w-full overflow-hidden rounded-2xl bg-neutral-100 sm:h-80">
+          <div className="relative mt-5 h-48 w-full overflow-hidden rounded-xl bg-neutral-100 sm:mt-6 sm:h-72 sm:rounded-2xl md:h-80">
             <Image src={blog.coverImage} alt={blog.title} fill className="object-cover" unoptimized />
           </div>
         )}
 
         <div
-          className="blog-prose mt-8 text-[17px] leading-relaxed text-neutral-700"
+          className="blog-prose mt-6 text-neutral-700 sm:mt-8"
           dangerouslySetInnerHTML={{ __html: blog.contentHtml }}
         />
       </article>
