@@ -40,10 +40,10 @@ function ToolbarButton({
       type="button"
       onClick={onClick}
       title={title}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-lg border text-neutral-700 transition-colors ${
+      className={`inline-flex h-8 w-8 items-center justify-center rounded-md transition-colors ${
         isActive
-          ? 'border-neutral-900 bg-neutral-900 text-white'
-          : 'border-neutral-200 bg-white hover:bg-neutral-100'
+          ? 'bg-neutral-900 text-white'
+          : 'text-neutral-500 hover:bg-neutral-200 hover:text-neutral-800'
       }`}
     >
       {children}
@@ -64,7 +64,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
     content: value,
     editorProps: {
       attributes: {
-        class: 'max-w-none min-h-[360px] px-5 py-4 text-base leading-relaxed text-neutral-700 focus:outline-none',
+        class: 'max-w-none min-h-[480px] py-2 text-base leading-[1.85] text-neutral-700 focus:outline-none',
       },
     },
     onUpdate({ editor }) {
@@ -94,8 +94,8 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-      <div className="flex flex-wrap gap-2 border-b border-neutral-200 bg-neutral-50 p-3">
+    <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+      <div className="flex flex-wrap gap-1.5 border-b border-neutral-100 bg-neutral-50/80 px-3 py-2.5">
         <ToolbarButton
           title="Heading 2"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -166,7 +166,9 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
           <Redo2 size={15} />
         </ToolbarButton>
       </div>
-      <EditorContent editor={editor} className="editor-content" />
+      <div className="px-5 py-3 sm:px-6">
+        <EditorContent editor={editor} className="editor-content" />
+      </div>
     </div>
   );
 }

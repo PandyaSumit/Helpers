@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Plus, Trash2, Edit3, ExternalLink, Star, StarOff, CheckCircle, AlertCircle } from 'lucide-react';
 import { Job } from '@/types';
 import { timeAgo, formatSalary } from '@/lib/utils';
+import AdminDataTable from '@/components/AdminDataTable';
 
 interface AdminPanelProps {
   initialJobs: Job[];
@@ -169,8 +170,19 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
   const inputCls = 'w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 outline-none focus:border-neutral-400 focus:ring-2 focus:ring-neutral-100';
   const labelCls = 'block mb-1 text-xs font-semibold text-neutral-600 uppercase tracking-wide';
 
+  useEffect(() => {
+    if (!showForm) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [showForm]);
+
   return (
-    <div>
+    <div className="space-y-6 lg:space-y-8">
       {/* Toast */}
       {toast && (
         <div
@@ -185,39 +197,63 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
         </div>
       )}
 
-      <div className="mb-8 flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Job Listings</h1>
-          <p className="mt-0.5 text-sm text-neutral-500">{jobs.length} {jobs.length === 1 ? 'listing' : 'listings'}</p>
+          <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">Job Listings</h1>
+          <p className="mt-1 text-sm text-neutral-500">
+            {jobs.length} {jobs.length === 1 ? 'listing' : 'listings'}
+          </p>
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-700"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-700 sm:w-auto"
         >
           <Plus size={16} />
           New Job
         </button>
       </div>
 
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Total Jobs</p>
+          <p className="mt-2 text-2xl font-bold text-neutral-900">{jobs.length}</p>
+        </div>
+        <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Featured</p>
+          <p className="mt-2 text-2xl font-bold text-neutral-900">{jobs.filter((job) => job.featured).length}</p>
+        </div>
+        <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Companies</p>
+          <p className="mt-2 text-2xl font-bold text-neutral-900">{new Set(jobs.map((job) => job.company)).size}</p>
+        </div>
+        <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">Remote</p>
+          <p className="mt-2 text-2xl font-bold text-neutral-900">
+            {jobs.filter((job) => job.locationType === 'remote').length}
+          </p>
+        </div>
+      </div>
+
       {/* Job Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 z-40 overflow-y-auto">
-          <div className="flex min-h-full items-start justify-center bg-black/40 px-4 py-10 backdrop-blur-sm">
-            <div className="w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
-              <div className="flex items-center justify-between border-b border-neutral-100 px-6 py-4">
+        <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm">
+          <div className="flex h-full items-end justify-center p-0 sm:items-center sm:px-6 sm:py-6">
+            <div className="flex h-[100dvh] w-full max-w-4xl flex-col overflow-hidden rounded-none bg-white shadow-2xl sm:h-[min(92dvh,900px)] sm:rounded-2xl">
+              <div className="flex flex-shrink-0 items-center justify-between border-b border-neutral-100 px-6 py-4">
                 <h2 className="text-lg font-semibold text-neutral-900">
                   {editingJob ? 'Edit Job' : 'Post New Job'}
                 </h2>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="text-neutral-400 hover:text-neutral-700"
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
                 >
                   ✕
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5 p-6">
-                <div className="grid gap-4 sm:grid-cols-2">
+              <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+                <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-6">
+                  <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className={labelCls}>Job Title *</label>
                     <input required className={inputCls} value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Senior Frontend Engineer" />
@@ -347,7 +383,8 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
                   </label>
                 </div>
 
-                <div className="flex justify-end gap-3 border-t border-neutral-100 pt-4">
+                </div>
+                <div className="flex flex-shrink-0 justify-end gap-3 border-t border-neutral-100 bg-white px-6 py-4">
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
@@ -370,88 +407,154 @@ export default function AdminPanel({ initialJobs }: AdminPanelProps) {
       )}
 
       {/* Job List */}
-      <div className="overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-neutral-100 bg-neutral-50">
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500">Job</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500">Type</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500">Salary</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-500">Posted</th>
-                <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-500">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-50">
-              {jobs.map((job) => (
-                <tr key={job.id} className="hover:bg-neutral-50/50">
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50">
-                        {job.companyLogo ? (
-                          <Image src={job.companyLogo} alt={job.company} fill className="object-contain p-1" unoptimized />
-                        ) : (
-                          <span className="flex h-full w-full items-center justify-center text-xs font-bold text-neutral-400">{job.company[0]}</span>
-                        )}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-sm font-semibold text-neutral-900">{job.title}</p>
-                          {job.featured && (
-                            <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700">Featured</span>
-                          )}
-                        </div>
-                        <p className="text-xs text-neutral-500">{job.company}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-neutral-600 capitalize">{job.jobType}</td>
-                  <td className="px-4 py-3 text-xs text-neutral-600">{formatSalary(job)}</td>
-                  <td className="px-4 py-3 text-xs text-neutral-500">{timeAgo(job.postedAt)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-1">
-                      <button
-                        onClick={() => toggleFeatured(job)}
-                        title={job.featured ? 'Remove featured' : 'Mark featured'}
-                        className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-amber-600"
-                      >
-                        {job.featured ? <StarOff size={14} /> : <Star size={14} />}
-                      </button>
-                      <Link
-                        href={`/jobs/${job.slug}`}
-                        target="_blank"
-                        className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
-                      >
-                        <ExternalLink size={14} />
-                      </Link>
-                      <button
-                        onClick={() => openEdit(job)}
-                        className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
-                      >
-                        <Edit3 size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(job.id)}
-                        className="rounded-lg p-1.5 text-neutral-400 hover:bg-red-50 hover:text-red-600"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <AdminDataTable
+        columns={[
+          { key: 'job', label: 'Job' },
+          { key: 'type', label: 'Type' },
+          { key: 'salary', label: 'Salary' },
+          { key: 'posted', label: 'Posted' },
+          { key: 'actions', label: 'Actions', className: 'text-right' },
+        ]}
+        rows={jobs}
+        rowKey={(job) => job.id}
+        scrollHeightClass="h-[clamp(26rem,calc(100dvh-15.5rem),52rem)]"
+        renderRow={(job) => (
+          <>
+            <td className="px-4 py-3">
+              <div className="flex items-center gap-3">
+                <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50">
+                  {job.companyLogo ? (
+                    <Image src={job.companyLogo} alt={job.company} fill className="object-contain p-1" unoptimized />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center text-xs font-bold text-neutral-400">
+                      {job.company[0]}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-sm font-semibold text-neutral-900">{job.title}</p>
+                    {job.featured && (
+                      <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500">{job.company}</p>
+                </div>
+              </div>
+            </td>
+            <td className="px-4 py-3 text-xs text-neutral-600 capitalize">{job.jobType}</td>
+            <td className="px-4 py-3 text-xs text-neutral-600">{formatSalary(job)}</td>
+            <td className="px-4 py-3 text-xs text-neutral-500">{timeAgo(job.postedAt)}</td>
+            <td className="px-4 py-3">
+              <div className="flex items-center justify-end gap-1">
+                <button
+                  onClick={() => toggleFeatured(job)}
+                  title={job.featured ? 'Remove featured' : 'Mark featured'}
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-amber-600"
+                >
+                  {job.featured ? <StarOff size={14} /> : <Star size={14} />}
+                </button>
+                <Link
+                  href={`/jobs/${job.slug}`}
+                  target="_blank"
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+                >
+                  <ExternalLink size={14} />
+                </Link>
+                <button
+                  onClick={() => openEdit(job)}
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+                >
+                  <Edit3 size={14} />
+                </button>
+                <button
+                  onClick={() => handleDelete(job.id)}
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-red-50 hover:text-red-600"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            </td>
+          </>
+        )}
+        emptyState={
+          <>
+            <p className="text-neutral-400">No jobs yet.</p>
+            <button onClick={openCreate} className="mt-3 text-sm font-medium text-neutral-900 underline">
+              Post your first job
+            </button>
+          </>
+        }
+      />
 
-          {jobs.length === 0 && (
-            <div className="py-16 text-center">
-              <p className="text-neutral-400">No jobs yet.</p>
-              <button onClick={openCreate} className="mt-3 text-sm font-medium text-neutral-900 underline">
-                Post your first job
+      <div className="space-y-3 md:hidden">
+        {jobs.map((job) => (
+          <div key={job.id} className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50">
+                  {job.companyLogo ? (
+                    <Image src={job.companyLogo} alt={job.company} fill className="object-contain p-1" unoptimized />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center text-xs font-bold text-neutral-400">
+                      {job.company[0]}
+                    </span>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-neutral-900">{job.title}</p>
+                  <p className="mt-0.5 truncate text-xs text-neutral-500">{job.company}</p>
+                </div>
+              </div>
+              {job.featured && (
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Featured</span>
+              )}
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-neutral-600">
+              <p className="rounded-lg bg-neutral-50 px-2 py-1 capitalize">{job.jobType}</p>
+              <p className="rounded-lg bg-neutral-50 px-2 py-1 text-right">{timeAgo(job.postedAt)}</p>
+              <p className="col-span-2 rounded-lg bg-neutral-50 px-2 py-1">{formatSalary(job)}</p>
+            </div>
+            <div className="mt-3 flex items-center justify-end gap-1">
+              <button
+                onClick={() => toggleFeatured(job)}
+                title={job.featured ? 'Remove featured' : 'Mark featured'}
+                className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-100 hover:text-amber-600"
+              >
+                {job.featured ? <StarOff size={15} /> : <Star size={15} />}
+              </button>
+              <Link
+                href={`/jobs/${job.slug}`}
+                target="_blank"
+                className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+              >
+                <ExternalLink size={15} />
+              </Link>
+              <button
+                onClick={() => openEdit(job)}
+                className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+              >
+                <Edit3 size={15} />
+              </button>
+              <button
+                onClick={() => handleDelete(job.id)}
+                className="rounded-lg p-2 text-neutral-400 hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 size={15} />
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        ))}
+        {jobs.length === 0 && (
+          <div className="rounded-2xl border border-neutral-100 bg-white py-12 text-center shadow-sm">
+            <p className="text-neutral-400">No jobs yet.</p>
+            <button onClick={openCreate} className="mt-3 text-sm font-medium text-neutral-900 underline">
+              Post your first job
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

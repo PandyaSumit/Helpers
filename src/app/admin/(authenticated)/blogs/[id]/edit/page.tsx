@@ -16,5 +16,9 @@ export default async function EditBlogPostPage({ params }: Props) {
   const { id } = await params;
   const post = await getBlogById(id);
   if (!post) notFound();
-  return <BlogPostEditor mode="edit" initialBlog={post} />;
+  return (
+    <div className="lg:-mx-10 lg:-mb-12 lg:-mt-8">
+      <BlogPostEditor mode="edit" initialBlog={post} />
+    </div>
+  );
 }

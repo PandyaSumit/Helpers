@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function NewBlogPostPage() {
-  return <BlogPostEditor mode="create" />;
+  return (
+    <div className="lg:-mx-10 lg:-mb-12 lg:-mt-8">
+      <BlogPostEditor mode="create" />
+    </div>
+  );
 }

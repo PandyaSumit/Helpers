@@ -1,91 +1,76 @@
 "use client";
 
 import Link from "next/link";
-import { Briefcase } from "lucide-react";
+import BrandMark from "@/components/BrandMark";
+
+const footerLinks = {
+  Platform: [
+    { href: "/jobs", label: "Browse Jobs" },
+    { href: "/blog", label: "Blog" },
+  ],
+  Categories: [
+    { href: "/jobs?category=Engineering", label: "Engineering" },
+    { href: "/jobs?category=Design", label: "Design" },
+    { href: "/jobs?category=Data+%26+AI", label: "Data & AI" },
+    { href: "/jobs?category=Marketing", label: "Marketing" },
+    { href: "/jobs?category=Product", label: "Product" },
+  ],
+  "Job Types": [
+    { href: "/jobs?locationType=remote", label: "Remote Jobs" },
+    { href: "/jobs?locationType=hybrid", label: "Hybrid Jobs" },
+    { href: "/jobs?jobType=full-time", label: "Full-time" },
+    { href: "/jobs?jobType=internship", label: "Internships" },
+    { href: "/jobs?jobType=contract", label: "Contract" },
+  ],
+};
 
 export default function Footer() {
   return (
     <footer className="border-t border-neutral-200 bg-white">
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col items-start justify-between gap-8 md:flex-row">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-[1.8fr_1fr_1fr_1fr]">
+          {/* Brand */}
           <div>
             <Link
               href="/"
-              className="flex items-center gap-2 font-semibold text-neutral-900"
+              className="inline-flex items-center gap-2 font-bold tracking-tight text-neutral-900"
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-neutral-900 text-white">
-                <Briefcase size={16} />
-              </span>
-              <span className="text-base tracking-tight">Helpers</span>
+              <BrandMark className="h-7 w-7" />
+              <span className="text-sm">Helpers</span>
             </Link>
-            <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-600">
-              Curated job opportunities from top companies, hand-picked for
-              quality and clarity.
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-neutral-500">
+              Curated job opportunities from top companies — hand-picked for quality and clarity.
             </p>
           </div>
-          <div className="flex gap-12">
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                Platform
+
+          {/* Link columns */}
+          {Object.entries(footerLinks).map(([group, links]) => (
+            <div key={group}>
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                {group}
               </h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>
-                  <Link href="/jobs" className="hover:text-neutral-900">
-                    Browse Jobs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="hover:text-neutral-900">
-                    Blog
-                  </Link>
-                </li>
+              <ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-neutral-600 transition-colors hover:text-neutral-900"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                Categories
-              </h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>
-                  <Link
-                    href="/jobs?category=Engineering"
-                    className="hover:text-neutral-900"
-                  >
-                    Engineering
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/jobs?category=Design"
-                    className="hover:text-neutral-900"
-                  >
-                    Design
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/jobs?category=Data+%26+AI"
-                    className="hover:text-neutral-900"
-                  >
-                    Data & AI
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/jobs?category=Marketing"
-                    className="hover:text-neutral-900"
-                  >
-                    Marketing
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="mt-8 border-t border-neutral-200 pt-6">
+
+        <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-neutral-200 pt-6 sm:flex-row sm:items-center">
           <p className="text-xs text-neutral-400">
-            © {new Date().getFullYear()} Helpers. Curated opportunities, not
-            direct applications.
+            © {new Date().getFullYear()} Helpers. All rights reserved.
+          </p>
+          <p className="text-xs text-neutral-400">
+            Curated opportunities — not direct applications.
           </p>
         </div>
       </div>

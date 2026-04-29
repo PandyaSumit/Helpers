@@ -2,11 +2,11 @@ import AdminSidebar from '@/components/AdminSidebar';
 
 export default function AdminAuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-100/60">
       <AdminSidebar />
-      <div className="lg:pl-60">
-        <main className="min-h-screen px-6 pb-12 pt-16 lg:px-8 lg:pt-8">
-          {children}
+      <div className="lg:pl-64">
+        <main className="min-h-screen px-4 pb-0 pt-20 sm:px-6 lg:px-10 lg:pb-0 lg:pt-8">
+          <div className="mx-auto w-full max-w-7xl">{children}</div>
         </main>
       </div>
     </div>
